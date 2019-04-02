@@ -78,7 +78,7 @@ def _read32(bytestream):
 
 def main():
     INPUTS_DIR = os.getenv('VH_INPUTS_DIR', './inputs')
-    DATA_DIR = os.path.join(INPUTS_DIR, 'data-set')
+    DATA_DIR = os.path.join(INPUTS_DIR, 'dataset')
 
     data_path = get_first_file(DATA_DIR)
 
