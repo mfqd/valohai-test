@@ -18,9 +18,6 @@ def _load_images(file):
     """
     print('Extracting {}'.format(file.name))
     with gzip.GzipFile(fileobj=file) as bytestream:
-        magic = _read32(bytestream)
-        if magic != 2051:
-            raise ValueError('Invalid magic number %d in MNIST image file: %s' % (magic, file.name))
         num_images = _read32(bytestream)
         rows = _read32(bytestream)
         cols = _read32(bytestream)
@@ -38,9 +35,6 @@ def _load_labels(file):
     """
     print('Extracting {}'.format(file.name))
     with gzip.GzipFile(fileobj=file) as bytestream:
-        magic = _read32(bytestream)
-        if magic != 2049:
-            raise ValueError('Invalid magic number %d in MNIST label file: %s' % (magic, file.name))
         num_items = _read32(bytestream)
         buf = bytestream.read(num_items)
         labels = np.frombuffer(buf, dtype=np.uint8)
