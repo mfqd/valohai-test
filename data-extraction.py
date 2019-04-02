@@ -31,7 +31,6 @@ def _load_labels(file):
     """
     :param file: A file object that can be passed into a gzip reader.
     :return: A 1D uint8 numpy array [index -> label between 0-9]
-    :raises ValueError: If the bytestream doesn't start with 2049.
     """
     print('Extracting {}'.format(file.name))
     with gzip.GzipFile(fileobj=file) as bytestream:
@@ -77,7 +76,7 @@ def main():
     data_path = get_first_file(DATA_DIR)
 
     with open(data_path, 'rb') as f:
-        data = _load_images(f)
+        data = _load_labels(f)
 
     # Note that this is only for demoing purposes, only extracts and compresses the data.
     print('Applying feature extraction...')
