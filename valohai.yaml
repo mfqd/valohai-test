@@ -1,0 +1,42 @@
+- step:
+    name: Batch feature extraction
+    image: tensorflow/tensorflow:1.5.0-devel-gpu
+    command: python batch_feature_extraction.py
+    inputs:
+      - name: dataset
+        default: https://data.mendeley.com/datasets/rscbjbr9sj/2/files/9e8f7acf-7d3a-487f-8eb5-0bd3255b9685/OCT2017.tar.gz 
+
+- step:
+    name: Train model
+    image: tensorflow/tensorflow:1.5.0-devel-gpu
+    command: python train.py {parameters}
+    parameters:
+      - name: max_steps
+        pass-as: --max_steps={v}
+        description: Number of steps to run the trainer
+        type: integer
+        default: 300
+      - name: learning_rate
+        pass-as: --learning_rate={v}
+        description: Initial learning rate
+        type: float
+        default: 0.001
+      - name: dropout
+        pass-as: --dropout={v}
+        description: Keep probability for training dropout
+        type: float
+        default: 0.9
+    inputs:
+      - name: dataset
+        default: https://data.mendeley.com/datasets/rscbjbr9sj/2/files/9e8f7acf-7d3a-487f-8eb5-0bd3255b9685/OCT2017.tar.gz 
+
+- step:
+    name: Worker environment check
+    image: tensorflow/tensorflow:1.5.0-devel-gpu
+    command:
+      - pwd
+      - ls -la
+      - nvidia-smi
+      - python --version
+      - nvcc --version | grep release
+      - cat /usr/include/x86_64-linux-gnu/cudnn_v*.h | grep CUDNN_MAJOR -A 2
